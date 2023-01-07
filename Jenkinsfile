@@ -22,8 +22,8 @@ pipeline {
 
 			   script {
                         sh 'docker build . -t discoverymc:latest'
-						sh 'docker tag discoverymc h4mdi/discoverymc'
-						sh 'docker push h4mdi/discoverymc'
+						sh 'docker tag discoverymc mahdiguettiti/discoverymc'
+						sh 'docker push mahdiguettiti/discoverymc'
                     }
 
 
