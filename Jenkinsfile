@@ -4,13 +4,21 @@ pipeline {
 
     stages {
 
-       sh'rrr'
+        stage('Build du projet') {
+		 steps {
+                echo 'good
+                    }
         }
 
 
 
 	stage('Construction image') {
-          sh'ee'
+            steps {
+                echo 'good
+                    }
+
+
+               }
             }
         }
 }
