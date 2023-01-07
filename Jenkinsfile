@@ -5,7 +5,7 @@ pipeline {
     stages {
 
         stage('Build du projet') {
-		 agent { docker 'maven:3-alpine' }
+		 agent any
             steps {
 
                 echo 'eeeer'
