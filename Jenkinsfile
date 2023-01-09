@@ -23,5 +23,14 @@ agent any
 
                }
             }
+
+stage('Deployement Kubernetes') {
+agent any
+            steps {
+                echo 'eeer'
+
+
+               }
+            }
         }
 }
