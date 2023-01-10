@@ -5,10 +5,11 @@ pipeline {
     stages {
 
         stage('Build du projet') {
-		 agent any
+		 agent { docker 'maven:3-alpine' }
             steps {
 
-                echo 'eeeer'
+                sh 'mvn clean install -DskipTests '
+				stash includes: 'target/*.jar', name: 'targetfiles'
 
             }
         }
@@ -16,21 +17,30 @@ pipeline {
 
 
 	stage('Construction image') {
-agent any
             steps {
-                echo 'eeer'
+                 unstash 'targetfiles'
+
+			   script {
+                         sh 'docker build . -t test1:latest'
+						sh 'docker tag test1 mahdiguettiti/test1'
+						sh 'docker push mahdiguettiti/test1'
+
+                    }
 
 
                }
             }
-
-stage('Deployement Kubernetes') {
-agent any
+	    stage('Deployement'){
             steps {
-                echo 'eeer'
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'kubernetes', contextName: '',
+							  credentialsId: 'Test.Kubernetes', namespace: 'default', serverUrl: 'https://172.31.92.163:6443']]) {
+                        sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
+                        sh 'chmod u+x ./kubectl'
+                        sh 'kubectl version'
+                        echo 'service ok'
+                    }
+                }
 
+                }
 
-               }
-            }
-        }
 }
